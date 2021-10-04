@@ -1,0 +1,80 @@
+<template>
+    <div>
+        <div v-for="message in data.value.docs" :key="message">
+            <b>{{ message.data().username }}</b><br>
+            <span>{{ message.data().message }}</span>
+        </div>
+        <input v-model="message" type="text" @keyup.enter="sendMessage(message)" />
+        <button type="button" class="btn btn-primary" @click="sendMessage(message)">Send</button>
+
+    </div>
+</template>
+
+<script>
+import firebase from '../Firebase-script'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { reactive } from 'vue'
+import { v4 as uuidv4 } from 'uuid';
+
+
+export default{
+    name: 'Chat',
+    setup(){
+        let store = useStore()
+        let router = useRouter()
+        const data = reactive({})
+        const message = reactive('')
+
+        function sendMessage(value){
+            firebase.firestore().collection("messages").doc(uuidv4()).set({
+                username: 'Alexander Bobo',
+                message: value,
+                timestamp: Date.now()
+            })
+            .then(() => {
+                console.log("Document successfully written!");
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        }
+
+        if(store.getters.getUser.length === 0){
+            router.push('/')
+        }
+
+        firebase.firestore().collection("messages")
+            .orderBy("timestamp", "asc")
+            .get()
+            .then((querySnapshot) => {
+                console.log(querySnapshot)
+                console.log(querySnapshot.docs[0].data())
+                data.value = querySnapshot
+            })
+            .catch((error) => {
+                alert("Error")
+                console.log("Error getting documents: ", error);
+            });
+        
+        let reload = () => {
+            firebase.firestore().collection("messages")
+            .orderBy("timestamp", "asc")
+            .get()
+            .then((querySnapshot) => {
+                data.value = querySnapshot
+            })
+        }
+
+
+
+
+        firebase.firestore().collection("messages")
+        .onSnapshot(() => {
+            reload()
+        });
+            
+        return { data, message, sendMessage }
+    }
+}
+</script>
