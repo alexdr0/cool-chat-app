@@ -21,16 +21,28 @@ import { v4 as uuidv4 } from 'uuid';
 export default{
     name: 'Chat',
     setup(){
+        
         let store = useStore()
         let router = useRouter()
         const data = reactive({})
         const message = reactive('')
 
+        if(store.getters.getUser.uid == null){
+            router.push('/')
+        }
+
         function sendMessage(value){
+            if (value.length == 0){
+                alert("empty")
+                return
+            }
+
+
             firebase.firestore().collection("messages").doc(uuidv4()).set({
-                username: 'Alexander Bobo',
+                username: store.getters.getUser.displayName,
                 message: value,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                uid: store.getters.getUser.uid
             })
             .then(() => {
                 console.log("Document successfully written!");
@@ -40,12 +52,9 @@ export default{
             });
         }
 
-        if(store.getters.getUser.length === 0){
-            router.push('/')
-        }
+        
 
         firebase.firestore().collection("messages")
-            .orderBy("timestamp", "asc")
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
@@ -59,7 +68,6 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
-            .orderBy("timestamp", "asc")
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot

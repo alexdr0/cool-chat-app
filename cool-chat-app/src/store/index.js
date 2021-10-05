@@ -5,8 +5,8 @@ export default createStore({
     user: [{}]
   },
   mutations: {
-    setUser (state, user) {
-      state.user[0] = user
+    setUser (state, payload) {
+      state.user[0] = payload.user
     }
   },
   actions: {
