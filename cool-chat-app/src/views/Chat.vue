@@ -39,9 +39,9 @@ export default{
 
 
             firebase.firestore().collection("messages").doc(uuidv4()).set({
+                timestamp: Date.now(),
                 username: store.getters.getUser.displayName,
                 message: value,
-                timestamp: Date.now(),
                 uid: store.getters.getUser.uid
             })
             .then(() => {
@@ -55,6 +55,7 @@ export default{
         
 
         firebase.firestore().collection("messages")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
@@ -68,6 +69,7 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot
