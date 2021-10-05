@@ -12,21 +12,23 @@
 
 <style lang="scss">
   h1{
-    top:20%;
+    margin-top:20%;
     color:white;
     font-family: Roboto;
-    font-size:40pt;
+    font-size:90pt;
   }
-  .h2{
+  h2{
     color:lightgray;
     font-family:Roboto;
     font-weight:400;
-    font-size:12pt;
+    font-size:17pt;
   }
 
   .home{
     background: #2c2f33;
     height:100%;width:100%;
+    position:absolute;
+
   }
 </style>
 

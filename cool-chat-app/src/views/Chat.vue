@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="messageSend">
-          <input placeholder="Write shakespear as I would..."v-model="message" type="text" @keyup.enter="sendMessage(message)" />
+          <input placeholder="Write shakespear as I would..." v-model="message" type="text" @keyup.enter="sendMessage(message)" />
           <button type="button" class="btn btn-primary" @click="sendMessage(message)">Send</button>
         </div>
 
@@ -16,20 +16,28 @@
 <style lang="scss">
   .messageSend{
     height:30pt;
-    width:100pt;
-    position:absolute;
-    bottom:0;left:0;right:0;
+    width:85%;
+    // position:absolute;
+    // bottom:0;left:0;right:0;
 
     input{
-      height:25pt;
+      height:30pt;
       width:85%;
       background: #2c2f33;
-      border-radius:5pt;  
+      border-radius:1.55pt;  
+      font-family:roboto;
+      font-weight:400;
+      border:none;
+      color:white;
     }
   }
   .maindiv{
     background: #23272a;
     color:white;
+    position:aboslute;
+
+    height:100%;width:100%;
+    top:0;bottom:0;left:0;right:0;
 
     .message{
       b{
@@ -90,7 +98,7 @@ export default{
         
 
         firebase.firestore().collection("messages")
-            .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "asc")
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
@@ -104,7 +112,7 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
-            .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "asc")
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot

@@ -1,10 +1,25 @@
 <template>
     <div>
-        <h1>Sign in</h1>
-        <button type="button" class="btn btn-primary" @click="signin()">Sign in with google</button>
+        <button type="button" class="btn btn-primary botton" @click="signin()">Sign in with google</button>
 
     </div>
 </template>
+
+<style lang="scss" scoped>
+div{
+    background: #2c2f33;
+    position:absolute;
+    height:100%;width:100%;
+
+    button{
+        margin-top:25%;
+        background:rgb(114, 137, 218);
+        font-family: Roboto;
+        font-weight:bold;
+        border:none;
+    }
+}
+</style>
 
 <script>
 import firebase from '../Firebase-script'
