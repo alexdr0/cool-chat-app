@@ -1,15 +1,50 @@
 <template>
-    <div>
+    <div class="maindiv">
         <div v-for="message in data.value.docs" :key="message">
-            <b>{{ message.data().username }}</b><br>
-            <span>{{ message.data().message }}</span>
+            <div class="message">
+              <b>{{ message.data().username }}</b><br>
+              <span>{{ message.data().message }}</span>
+            </div>
         </div>
-        <input v-model="message" type="text" @keyup.enter="sendMessage(message)" />
-        <button type="button" class="btn btn-primary" @click="sendMessage(message)">Send</button>
+        <div class="messageSend">
+          <input placeholder="Write shakespear as I would..."v-model="message" type="text" @keyup.enter="sendMessage(message)" />
+          <button type="button" class="btn btn-primary" @click="sendMessage(message)">Send</button>
+        </div>
 
     </div>
 </template>
+<style lang="scss">
+  .messageSend{
+    height:30pt;
+    width:100pt;
+    position:absolute;
+    bottom:0;left:0;right:0;
 
+    input{
+      height:25pt;
+      width:85%;
+      background: #2c2f33;
+      border-radius:5pt;  
+    }
+  }
+  .maindiv{
+    background: #23272a;
+    color:white;
+
+    .message{
+      b{
+        font-family: Roboto;
+        font-weight:800;
+        color:white;
+      }
+      span{
+        font-weight:400;
+        color:white;
+        font-family:Roboto;
+      }
+    }
+  }
+</style>
 <script>
 import firebase from '../Firebase-script'
 import { useStore } from 'vuex'
