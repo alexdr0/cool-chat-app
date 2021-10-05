@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Alexcord</h1>
-    <h2>Beacause I don't understand <i>"What isn't broke don't fix"</i><h2>
+    <h2>Beacause I don't understand <i>"What isn't broke don't fix"</i></h2>
 
     <router-link to="/signin">
       <button type="button" class="btn btn-primary">Sign in</button>
