@@ -2,8 +2,8 @@
     <div class="maindiv">
         <div v-for="message in data.value.docs" :key="message">
             <div class="message">
-              <b>{{ message.data().username }}</b><br>
-              <span>{{ message.data().message }}</span>
+              <b>{{ message.username }}</b><br>
+              <span>{{ message.message }}</span>
             </div>
         </div>
         <div class="messageSend">
@@ -98,13 +98,18 @@ export default{
         
 
         firebase.firestore().collection("messages")
-            .orderBy("timestamp", "asc")
+            .orderBy("timestamp", "desc")
             .limit(15)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
                 console.log(querySnapshot.docs[0].data())
-                data.value = querySnapshot
+                let data = []
+                for(let i = 0; i != querySnapshot.length; i++){
+                    data.push(querySnapshot.docs[i].data())
+                }
+                data.reverse()
+                data.value = data
             })
             .catch((error) => {
                 alert("Error")
@@ -114,7 +119,7 @@ export default{
         let reload = () => {
             firebase.firestore().collection("messages")
             .limit(15)
-            .orderBy("timestamp", "asc")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot
