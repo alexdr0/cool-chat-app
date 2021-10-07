@@ -99,6 +99,7 @@ export default{
 
         firebase.firestore().collection("messages")
             .orderBy("timestamp", "asc")
+            .limit(15)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
@@ -112,6 +113,7 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
+            .limit(15)
             .orderBy("timestamp", "asc")
             .get()
             .then((querySnapshot) => {
