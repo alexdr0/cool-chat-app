@@ -2,8 +2,8 @@
     <div class="maindiv">
         <div v-for="message in data.value.docs" :key="message">
             <div class="message">
-              <b>{{ message.username }}</b><br>
-              <span>{{ message.message }}</span>
+              <b>{{ message.data().username }}</b><br>
+              <span>{{ message.data().message }}</span>
             </div>
         </div>
         <div class="messageSend">
@@ -98,22 +98,12 @@ export default{
         
 
         firebase.firestore().collection("messages")
-<<<<<<< HEAD
-            .orderBy("timestamp", "desc")
-            .limit(15)
-=======
             .orderBy("timestamp", "asc")
->>>>>>> parent of d674a19 (Update Chat.vue)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
                 console.log(querySnapshot.docs[0].data())
-                let data = []
-                for(let i = 0; i != querySnapshot.length; i++){
-                    data.push(querySnapshot.docs[i].data())
-                }
-                data.reverse()
-                data.value = data
+                data.value = querySnapshot
             })
             .catch((error) => {
                 alert("Error")
@@ -122,12 +112,7 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
-<<<<<<< HEAD
-            .limit(15)
-            .orderBy("timestamp", "desc")
-=======
             .orderBy("timestamp", "asc")
->>>>>>> parent of d674a19 (Update Chat.vue)
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot
