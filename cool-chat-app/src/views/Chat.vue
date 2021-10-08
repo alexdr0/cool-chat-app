@@ -98,8 +98,12 @@ export default{
         
 
         firebase.firestore().collection("messages")
+<<<<<<< HEAD
             .orderBy("timestamp", "desc")
             .limit(15)
+=======
+            .orderBy("timestamp", "asc")
+>>>>>>> parent of d674a19 (Update Chat.vue)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
@@ -118,8 +122,12 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
+<<<<<<< HEAD
             .limit(15)
             .orderBy("timestamp", "desc")
+=======
+            .orderBy("timestamp", "asc")
+>>>>>>> parent of d674a19 (Update Chat.vue)
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot
