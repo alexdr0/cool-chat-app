@@ -16,6 +16,11 @@
     color:white;
     font-family: Roboto;
     font-size:90pt;
+
+    @media (max-width : 770px) {
+      font-size:45pt;
+      margin-top:40%;
+    }
   }
   h2{
     color:lightgray;

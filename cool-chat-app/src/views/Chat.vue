@@ -22,6 +22,10 @@
     bottom:0;
     left:0;
 
+    @media (max-width : 770px) {
+      margin-top:20%;
+    }
+
     .buton{
       width:65pt;
       border-radius:0;
@@ -47,6 +51,10 @@
 
     height:100%;width:100%;
     top:0;bottom:0;left:0;right:0;
+
+    @media (max-width : 770px) {
+      margin-bottom:20%;
+    }
 
     .message{
       b{
@@ -128,6 +136,7 @@ export default{
             });
         
         let reload = () => {
+            console.log("Grabbing info from server")
             firebase.firestore().collection("messages")
             .orderBy("timestamp", "desc")
             .limit(15)
