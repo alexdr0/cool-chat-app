@@ -8,7 +8,7 @@
         </div>
         <div class="messageSend">
           <input placeholder="Write shakespear as I would..." v-model="message" type="text" @keyup.enter="sendMessage(message)" />
-          <button type="button" class="btn btn-primary buton" @click="sendMessage(message)">Send</button>
+          <button type="button" class="btn btn-primary botton" @click="sendMessage(message)">Send</button>
         </div>
 
     </div>
@@ -17,27 +17,20 @@
   .messageSend{
     height:35pt;
     width:100%;
-    
     position:fixed;
     bottom:0;
-    left:0;
 
-    @media (max-width : 770px) {
-      margin-top:20%;
-    }
-
-    .buton{
-      width:65pt;
-      border-radius:0;
+    .botton{
+      width:50pt;
       height:35pt;
+      border-radius:0pt;
     }
-
 
     input{
-      height:35pt;
-      width:calc(100% - 65pt);
-
+      height:30pt;
+      width:calc(100% - 50pt);
       background: #2c2f33;
+      border-radius:1.55pt;  
       font-family:roboto;
       font-weight:400;
       border:none;
@@ -51,10 +44,6 @@
 
     height:100%;width:100%;
     top:0;bottom:0;left:0;right:0;
-
-    @media (max-width : 770px) {
-      margin-bottom:20%;
-    }
 
     .message{
       b{
@@ -97,11 +86,6 @@ export default{
                 return
             }
 
-            if(value.length >= 200){
-              alert("Exceeded 200 character limit")
-              return
-            }
-
 
             firebase.firestore().collection("messages").doc(uuidv4()).set({
                 timestamp: Date.now(),
@@ -120,14 +104,12 @@ export default{
         
 
         firebase.firestore().collection("messages")
-            .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "asc")
             .limit(15)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
                 console.log(querySnapshot.docs[0].data())
-                
-              
                 data.value = querySnapshot
             })
             .catch((error) => {
@@ -136,9 +118,8 @@ export default{
             });
         
         let reload = () => {
-            console.log("Grabbing info from server")
             firebase.firestore().collection("messages")
-            .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "asc")
             .limit(15)
             .get()
             .then((querySnapshot) => {
