@@ -1,6 +1,6 @@
 <template>
     <div class="maindiv">
-        <div v-for="message in data.value.docs" :key="message">
+        <div v-for="message in data.value.docs.reverse()" :key="message">
             <div class="message">
               <b>{{ message.data().username }}</b><br>
               <span>{{ message.data().message }}</span>
@@ -8,23 +8,32 @@
         </div>
         <div class="messageSend">
           <input placeholder="Write shakespear as I would..." v-model="message" type="text" @keyup.enter="sendMessage(message)" />
-          <button type="button" class="btn btn-primary" @click="sendMessage(message)">Send</button>
+          <button type="button" class="btn btn-primary buton" @click="sendMessage(message)">Send</button>
         </div>
 
     </div>
 </template>
 <style lang="scss">
   .messageSend{
-    height:30pt;
-    width:85%;
-    // position:absolute;
-    // bottom:0;left:0;right:0;
+    height:35pt;
+    width:100%;
+    
+    position:fixed;
+    bottom:0;
+    left:0;
+
+    .buton{
+      width:65pt;
+      border-radius:0;
+      height:35pt;
+    }
+
 
     input{
-      height:30pt;
-      width:85%;
+      height:35pt;
+      width:calc(100% - 65pt);
+
       background: #2c2f33;
-      border-radius:1.55pt;  
       font-family:roboto;
       font-weight:400;
       border:none;
@@ -34,7 +43,7 @@
   .maindiv{
     background: #23272a;
     color:white;
-    position:aboslute;
+    position:fixed;
 
     height:100%;width:100%;
     top:0;bottom:0;left:0;right:0;
@@ -80,6 +89,11 @@ export default{
                 return
             }
 
+            if(value.length >= 200){
+              alert("Exceeded 200 character limit")
+              return
+            }
+
 
             firebase.firestore().collection("messages").doc(uuidv4()).set({
                 timestamp: Date.now(),
@@ -98,11 +112,14 @@ export default{
         
 
         firebase.firestore().collection("messages")
-            .orderBy("timestamp", "asc")
+            .orderBy("timestamp", "desc")
+            .limit(15)
             .get()
             .then((querySnapshot) => {
                 console.log(querySnapshot)
                 console.log(querySnapshot.docs[0].data())
+                
+              
                 data.value = querySnapshot
             })
             .catch((error) => {
@@ -112,7 +129,8 @@ export default{
         
         let reload = () => {
             firebase.firestore().collection("messages")
-            .orderBy("timestamp", "asc")
+            .orderBy("timestamp", "desc")
+            .limit(15)
             .get()
             .then((querySnapshot) => {
                 data.value = querySnapshot
