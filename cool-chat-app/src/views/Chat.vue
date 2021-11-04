@@ -1,6 +1,6 @@
 <template>
     <div class="maindiv">
-        <div v-for="message in data.value.docs.reverse()" :key="message">
+        <div v-for="message in data.value.docs" :key="message">
             <div class="message">
               <b>{{ message.data().username }}</b><br>
               <span>{{ message.data().message }}</span>
